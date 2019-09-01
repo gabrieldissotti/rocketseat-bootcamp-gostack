@@ -5,12 +5,13 @@
   "author": "Gabriel Dissotti <gabrieldnrodrigues@gmail.com> (https://gabriel.dissotti.com/)",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon ./src/server.js"
   },
   "dependencies": {
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
     "sucrase": "^3.10.1"
   }
 }
