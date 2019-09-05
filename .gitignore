@@ -7,4 +7,4 @@
 /desafio02/node_modules
 /desafio03/node_modules
 /desafio03/.env
-
+/desafio03/tmp/uploads/*
