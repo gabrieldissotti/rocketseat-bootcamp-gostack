@@ -8,7 +8,9 @@ class UserController {
         email: Yup.string()
           .email()
           .required(),
-        password: Yup.string().required(),
+        password: Yup.string()
+          .min(6)
+          .required(),
         name: Yup.string().required(),
       });
 
@@ -27,25 +29,45 @@ class UserController {
   async update(req, res) {
     try {
       const schema = Yup.object().shape({
-        email: Yup.string()
-          .email()
-          .required(),
+        name: Yup.string(),
+        email: Yup.string().email(),
         oldPassword: Yup.string().min(6),
-        password: Yup.string().when('oldPassword', (oldPassword, field) =>
-          oldPassword ? field.required() : field
-        ),
+        password: Yup.string()
+          .min(6)
+          .when('oldPassword', (oldPassword, field) =>
+            oldPassword ? field.required() : field
+          ),
         confirmPassword: Yup.string().when('password', (password, field) =>
-          password ? field.required().oneOf(Yup.ref('password')) : field
+          password ? field.required().oneOf([Yup.ref('password')]) : field
         ),
-        name: Yup.string().required(),
       });
 
       if (!schema.isValid(req.body)) {
         return res.status(400).json({ error: 'Request validation fail' });
       }
 
-      return res.json();
+      const user = await User.findByPk(req.userId);
+
+      const { email, oldPassword } = req.body;
+
+      if (email !== user.email) {
+        const emailAlreadyInUse = await User.findOne({ where: { email } });
+        if (emailAlreadyInUse) {
+          return res
+            .status(400)
+            .json({ error: 'Email already in use by other user' });
+        }
+      }
+
+      if (oldPassword && !(await user.checkPassword(oldPassword))) {
+        return res.status(401).json({ error: "Password doesn't match" });
+      }
+
+      const { id, is_provider, name } = await user.update(req.body);
+
+      return res.json({ id, is_provider, name });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ error: error.message });
     }
   }
