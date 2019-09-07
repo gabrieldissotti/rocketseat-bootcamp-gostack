@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
-import { parseISO, isBefore } from 'date-fns';
+import { parseISO, isBefore, startOfDay, endOfDay } from 'date-fns';
+import { Op } from 'sequelize';
 
 import Meetup from '../models/Meetup';
 import Inscription from '../models/Inscription';
@@ -24,7 +25,10 @@ class MeetupController {
         .json({ error: "You can't create a meetup with a past date" });
     }
 
-    const meetup = await Meetup.create(req.body);
+    const meetup = await Meetup.create({
+      ...req.body,
+      date: parseISO(req.body.date),
+    });
 
     await Inscription.create({
       user_id: req.userId,
@@ -71,9 +75,45 @@ class MeetupController {
       return res.status(400).json({ error: "You can't edit a past meetup" });
     }
 
-    const updatedMeetup = await meetup.update(req.body);
+    const updatedMeetup = await meetup.update({
+      ...req.body,
+      date: parseISO(req.body.date),
+    });
 
     return res.json(updatedMeetup);
+  }
+
+  async index(req, res) {
+    const { type, user_id, date, page } = req.query;
+
+    const meetups = await Meetup.findAndCountAll({
+      limit: 10,
+      offset: (page > 0 && (page - 1) * 10) || 0,
+      where: {
+        ...(date
+          ? {
+              date: {
+                [Op.between]: [
+                  startOfDay(parseISO(date)),
+                  endOfDay(parseISO(date)),
+                ],
+              },
+            }
+          : ''),
+      },
+      include: [
+        {
+          model: Inscription,
+          as: 'inscriptions',
+          where: {
+            ...(user_id ? { user_id } : ''),
+            ...(type ? { type } : ''),
+          },
+        },
+      ],
+    });
+
+    return res.json(meetups);
   }
 }
 
