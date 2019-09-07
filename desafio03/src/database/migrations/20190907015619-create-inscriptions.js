@@ -1,11 +1,15 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('inscriptions', {
-      user_id: {
+      id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'users',
           key: 'id',
@@ -16,8 +20,6 @@ module.exports = {
       meetup_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
         references: {
           model: 'meetups',
           key: 'id',

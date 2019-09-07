@@ -34,6 +34,47 @@ class MeetupController {
 
     return res.json(meetup);
   }
+
+  async update(req, res) {
+    const schema = await Yup.object().shape({
+      title: Yup.string(),
+      description: Yup.string(),
+      place: Yup.string(),
+      date: Yup.date(),
+      hour: Yup.string(),
+    });
+
+    if (!schema.isValid(req.body)) {
+      return res.status(400).json({ error: 'Request validation fails' });
+    }
+
+    const meetup = await Meetup.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: [
+        {
+          model: Inscription,
+          as: 'inscriptions',
+          where: {
+            type: Inscription.type.organizer,
+          },
+        },
+      ],
+    });
+
+    if (!meetup) {
+      return res.status(400).json({ error: "You can't edit this meetup" });
+    }
+
+    if (isBefore(new Date(meetup.date), new Date())) {
+      return res.status(400).json({ error: "You can't edit a past meetup" });
+    }
+
+    const updatedMeetup = await meetup.update(req.body);
+
+    return res.json(updatedMeetup);
+  }
 }
 
 export default new MeetupController();

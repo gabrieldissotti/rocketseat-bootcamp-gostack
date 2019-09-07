@@ -30,10 +30,9 @@ class User extends Model {
 
   static associate(models) {
     this.hasOne(models.File, { foreignKey: 'user_id', as: 'avatar' });
-    this.belongsToMany(models.Meetup, {
-      through: models.Inscription,
-      foreignKey: 'meetup_id',
-      as: 'inscription',
+    this.hasMany(models.Inscription, {
+      foreignKey: 'user_id',
+      as: 'inscriptions',
     });
   }
 
