@@ -19,7 +19,7 @@ class MeetupController {
       return res.status(400).json({ error: 'Request validation fails' });
     }
 
-    if (isBefore(parseISO(req.body.date), new Date())) {
+    if (isBefore(parseISO(req.body.date), startOfDay(new Date()))) {
       return res
         .status(400)
         .json({ error: "You can't create a meetup with a past date" });
@@ -71,7 +71,7 @@ class MeetupController {
       return res.status(400).json({ error: "You can't edit this meetup" });
     }
 
-    if (isBefore(new Date(meetup.date), new Date())) {
+    if (isBefore(parseISO(meetup.date), startOfDay(new Date()))) {
       return res.status(400).json({ error: "You can't edit a past meetup" });
     }
 
