@@ -115,6 +115,35 @@ class MeetupController {
 
     return res.json(meetups);
   }
+
+  async delete(req, res) {
+    const meetup = await Meetup.findByPk(req.params.id, {
+      include: [
+        {
+          model: Inscription,
+          as: 'inscriptions',
+          where: {
+            type: Inscription.type.organizer,
+            user_id: req.userId,
+          },
+        },
+      ],
+    });
+
+    if (!meetup) {
+      return res
+        .status(400)
+        .json({ error: "You can't delete this meetup or doesn't exists" });
+    }
+
+    try {
+      await meetup.destroy();
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+
+    return res.json({ success: true });
+  }
 }
 
 export default new MeetupController();

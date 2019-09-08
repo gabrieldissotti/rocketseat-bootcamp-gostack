@@ -9,23 +9,23 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'users',
           key: 'id',
-          onDelete: 'SET NULL',
-          onUpdate: 'CASCADE',
         },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
       },
       meetup_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'meetups',
           key: 'id',
-          onDelete: 'SET NULL',
-          onUpdate: 'CASCADE',
         },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
       },
       type: {
         type: Sequelize.INTEGER,
