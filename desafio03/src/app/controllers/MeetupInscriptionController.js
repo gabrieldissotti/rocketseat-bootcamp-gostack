@@ -1,4 +1,5 @@
 import { isBefore, startOfDay } from 'date-fns';
+import Sequelize, { Op } from 'sequelize';
 import Inscription from '../models/Inscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
@@ -70,6 +71,29 @@ class MeetupInscriptionController {
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
+  }
+
+  async index(req, res) {
+    const meetups = await Meetup.findAll({
+      where: {
+        date: {
+          [Op.gte]: new Date(),
+        },
+      },
+      order: [['date', 'asc']],
+      include: [
+        {
+          model: Inscription,
+          as: 'inscriptions',
+          where: {
+            user_id: req.userId,
+            type: Inscription.type.participant,
+          },
+        },
+      ],
+    });
+
+    return res.json(meetups);
   }
 }
 

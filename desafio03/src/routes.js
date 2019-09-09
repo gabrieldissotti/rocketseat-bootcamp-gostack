@@ -32,5 +32,9 @@ routes.post(
   '/meetups/:meetup_id/inscriptions',
   MeetupInscriptionController.store
 );
+routes.get(
+  '/meetups/:meetup_id/inscriptions',
+  MeetupInscriptionController.index
+);
 
 export default routes;
