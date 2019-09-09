@@ -1,6 +1,10 @@
-import { isBefore, parseISO, startOfDay } from 'date-fns';
+import { isBefore, startOfDay } from 'date-fns';
 import Inscription from '../models/Inscription';
 import Meetup from '../models/Meetup';
+import User from '../models/User';
+
+import Queue from '../../lib/Queue';
+import ConfirmationMail from '../jobs/ConfirmationMail';
 
 class MeetupInscriptionController {
   async store(req, res) {
@@ -57,6 +61,11 @@ class MeetupInscriptionController {
         user_id: req.userId,
         type: Inscription.type.participant,
       });
+
+      const user = await User.findByPk(req.userId);
+
+      await Queue.add(ConfirmationMail.key, { user, meetup });
+
       return res.json(inscription);
     } catch (error) {
       return res.status(500).json({ error: error.message });
