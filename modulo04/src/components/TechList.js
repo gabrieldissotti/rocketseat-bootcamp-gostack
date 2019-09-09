@@ -34,7 +34,7 @@ class TechList extends Component {
         <ul>
           {this.state.techs.map(tech => (
             <TechItem
-              id={tech}
+              key={tech}
               tech={tech}
               onDelete={() => {
                 this.handleDelete(tech);
