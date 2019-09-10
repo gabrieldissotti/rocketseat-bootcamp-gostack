@@ -6,28 +6,23 @@ import profile from "../../assets/img/perfil.jpg";
 
 import Comment from "../Comment";
 
-function Post() {
+function Post({ post }) {
   return (
     <div className="post">
       <div className="header">
         <img className="photo" src={profile} alt="Foto do perfil de Gabriel" />
         <div className="profile">
-          <p className="name">Gabriel Dissotti</p>
-          <p className="date">04 Jun 2019</p>
+          <p className="name">{post.author.name}</p>
+          <p className="date">{post.date}</p>
         </div>
       </div>
       <div className="question">
-        <p>
-          E aí, blz? <br /> <br />
-          <br />
-          Onde posso encontrar um bom conteúdo sobre como trabalhar com css/sass
-          ?
-        </p>
+        <p>{post.content}</p>
       </div>
       <div className="answers">
-        <Comment />
-        <Comment />
-        <Comment />
+        {post.comments.map(comment => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
       </div>
     </div>
   );

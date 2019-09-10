@@ -1,9 +1,9 @@
 .post {
-  padding: 20px;
+  padding: 18px;
 
   border-radius: 3.5px;
   box-shadow: 0px 0px 6px #e6e6e6;
-  background: #fff;
+  background: #fbfbfb;
 }
 
 .post .header {
@@ -34,7 +34,7 @@
 }
 
 .post .question {
-  margin-top: 30px;
+  margin-top: 18px;
 
   border-bottom: solid 1px #eee;
   padding-bottom: 20px;

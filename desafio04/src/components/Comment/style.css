@@ -1,11 +1,11 @@
 .post .answers .comment {
-  margin-top: 15px;
+  margin-top: 25px;
   display: flex;
   align-items: center;
 }
 .post .answers .comment .photo {
   height: 35px;
-  margin-right: 20px;
+  margin-right: 10px;
 
   border-radius: 100%;
 }
@@ -13,8 +13,8 @@
 .post .answers .comment .message {
   font-size: 0.8rem;
   background: #eee;
-  padding: 10px;
-  border-radius: 15px;
+  padding: 13px;
+  border-radius: 14.77px;
   line-height: 1rem;
   letter-spacing: 0.03rem;
   color: #4e4e4e;
