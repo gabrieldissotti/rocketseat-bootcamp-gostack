@@ -1,0 +1,25 @@
+.post .answers .comment {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+.post .answers .comment .photo {
+  height: 35px;
+  margin-right: 20px;
+
+  border-radius: 100%;
+}
+
+.post .answers .comment .message {
+  font-size: 0.8rem;
+  background: #eee;
+  padding: 10px;
+  border-radius: 15px;
+  line-height: 1rem;
+  letter-spacing: 0.03rem;
+  color: #4e4e4e;
+}
+
+.post .answers .comment .message .name {
+  font-weight: 700;
+}

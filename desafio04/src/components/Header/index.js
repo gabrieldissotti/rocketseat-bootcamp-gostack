@@ -6,7 +6,7 @@ import perfil from "../../assets/img/perfil.jpg";
 
 function Header() {
   return (
-    <div className="header">
+    <div className="pageHeader">
       <h1 className="title">facebook.</h1>
       <div className="perfil">
         <span>Meu perfil</span>

@@ -1,4 +1,4 @@
-.header {
+.pageHeader {
   background: #4a90e2;
   width: 100%;
   height: 64px;
@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.header .title {
+.pageHeader .title {
   font-family: "PT Sans Narrow", sans-serif;
   color: #fff;
   font-size: 24pt;
@@ -15,16 +15,15 @@
   margin: 0 20px;
 }
 
-.header .perfil {
+.pageHeader .perfil {
   font-family: "PT Sans Narrow", sans-serif;
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.05rem;
 }
 
-.header .perfil .perfil-photo {
-  width: 45px;
-  height: 45px;
+.pageHeader .perfil .perfil-photo {
+  width: 35px;
   border-radius: 100%;
   margin: 0 15px;
 }
