@@ -49,14 +49,13 @@ export default class Repository extends Component {
 
   handleSelectChange = async e => {
     const op = e.target.value;
-    const { filter } = this.state;
     const { match } = this.props;
 
     const repoName = decodeURIComponent(match.params.repository);
 
     const issues = await api.get(`/repos/${repoName}/issues`, {
       params: {
-        state: filter,
+        state: op,
         per_page: 5,
       },
     });
@@ -85,7 +84,7 @@ export default class Repository extends Component {
             <FaFilter />
             Estado:
           </p>
-          <select name="" id="" onChange={this.handleSelectChange}>
+          <select onChange={this.handleSelectChange}>
             <option value="all" selected={filter === 'all'}>
               All
             </option>
