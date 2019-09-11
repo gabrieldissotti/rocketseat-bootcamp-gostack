@@ -43,6 +43,16 @@ class Main extends Component {
     const { newRepo, repositories } = this.state;
 
     try {
+      if (
+        await repositories.find(
+          repo =>
+            repo.name.toString().toLowerCase() ===
+            newRepo.toString().toLowerCase()
+        )
+      ) {
+        throw new Error('Duplicated repository');
+      }
+
       const response = await api.get(`/repos/${newRepo}`);
 
       const data = {
@@ -90,7 +100,7 @@ class Main extends Component {
 
         <List>
           {repositories.map(repository => (
-            <li key={repository.name}>
+            <li key={String(repository.name)}>
               <span>{repository.name}</span>
               <Link to={`/repository/${encodeURIComponent(repository.name)}`}>
                 Detalhes
