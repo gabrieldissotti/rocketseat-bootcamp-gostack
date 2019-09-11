@@ -11,6 +11,11 @@ export const Form = styled.form`
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 16px;
+    ${props =>
+      props.error &&
+      css`
+        border: 1px solid red;
+      `}
   }
 `;
 
@@ -27,6 +32,7 @@ const rotate = keyframes`
 export const SubmitButton = styled.button.attrs(props => ({
   type: 'submit',
   disabled: props.loading,
+  error: props.error,
 }))`
   background: #7159c1;
   border: 0;
