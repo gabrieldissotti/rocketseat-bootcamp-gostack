@@ -118,3 +118,26 @@ export const Filter = styled.div`
     cursor: pointer;
   }
 `;
+
+export const Paginate = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  align-items: center;
+
+  button {
+    background: #7159c1;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.04rem;
+    margin-left: 10px;
+
+    &[disabled] {
+      background: #8674c0;
+    }
+  }
+`;

@@ -6,7 +6,7 @@ import { FaFilter } from 'react-icons/fa';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList, Filter } from './styles';
+import { Loading, Owner, IssueList, Filter, Paginate } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -22,6 +22,7 @@ export default class Repository extends Component {
     issues: [],
     loading: true,
     filter: 'all',
+    page: 1,
   };
 
   async componentDidMount() {
@@ -47,24 +48,45 @@ export default class Repository extends Component {
     });
   }
 
+  async componentDidUpdate(_, prevState) {
+    const { filter, page } = this.state;
+    if (prevState.filter !== filter || prevState.page !== page) {
+      const { match } = this.props;
+
+      const repoName = decodeURIComponent(match.params.repository);
+
+      const issues = await api.get(`/repos/${repoName}/issues`, {
+        params: {
+          state: filter,
+          page,
+          per_page: 5,
+        },
+      });
+
+      this.setState({ issues: issues.data });
+    }
+  }
+
   handleSelectChange = async e => {
     const op = e.target.value;
-    const { match } = this.props;
 
-    const repoName = decodeURIComponent(match.params.repository);
+    this.setState({ filter: op });
+  };
 
-    const issues = await api.get(`/repos/${repoName}/issues`, {
-      params: {
-        state: op,
-        per_page: 5,
-      },
-    });
+  handleNextPage = () => {
+    const { page } = this.state;
 
-    this.setState({ filter: op, issues: issues.data });
+    this.setState({ page: page + 1 });
+  };
+
+  handlePreviousPage = () => {
+    const { page } = this.state;
+
+    this.setState({ page: page - 1 });
   };
 
   render() {
-    const { repository, issues, loading, filter } = this.state;
+    const { repository, issues, loading, filter, page } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -112,6 +134,19 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <Paginate>
+          <span>Page {page}</span>
+          <button
+            type="button"
+            disabled={page === 1}
+            onClick={this.handlePreviousPage}
+          >
+            Voltar
+          </button>
+          <button type="button" onClick={this.handleNextPage}>
+            Próximo
+          </button>
+        </Paginate>
       </Container>
     );
   }
