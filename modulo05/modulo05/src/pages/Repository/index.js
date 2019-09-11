@@ -2,10 +2,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { FaFilter } from 'react-icons/fa';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList } from './styles';
+import { Loading, Owner, IssueList, Filter } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -20,10 +21,12 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
+    filter: 'all',
   };
 
   async componentDidMount() {
     const { match } = this.props;
+    const { filter } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -31,7 +34,7 @@ export default class Repository extends Component {
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
         params: {
-          state: 'open',
+          state: filter,
           per_page: 5,
         },
       }),
@@ -42,13 +45,27 @@ export default class Repository extends Component {
       issues: issues.data,
       loading: false,
     });
-
-    console.log(repository);
-    console.log(issues);
   }
 
+  handleSelectChange = async e => {
+    const op = e.target.value;
+    const { filter } = this.state;
+    const { match } = this.props;
+
+    const repoName = decodeURIComponent(match.params.repository);
+
+    const issues = await api.get(`/repos/${repoName}/issues`, {
+      params: {
+        state: filter,
+        per_page: 5,
+      },
+    });
+
+    this.setState({ filter: op, issues: issues.data });
+  };
+
   render() {
-    const { repository, issues, loading } = this.state;
+    const { repository, issues, loading, filter } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -62,6 +79,24 @@ export default class Repository extends Component {
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
         </Owner>
+
+        <Filter>
+          <p>
+            <FaFilter />
+            Estado:
+          </p>
+          <select name="" id="" onChange={this.handleSelectChange}>
+            <option value="all" selected={filter === 'all'}>
+              All
+            </option>
+            <option value="open" selected={filter === 'open'}>
+              Open
+            </option>
+            <option value="closed" selected={filter === 'closed'}>
+              Closed
+            </option>
+          </select>
+        </Filter>
         <IssueList>
           {issues.map(issue => (
             <li key={String(issue.id)}>

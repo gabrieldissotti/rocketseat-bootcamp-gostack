@@ -97,7 +97,6 @@ class Main extends Component {
             )}
           </SubmitButton>
         </Form>
-
         <List>
           {repositories.map(repository => (
             <li key={String(repository.name)}>
