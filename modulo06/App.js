@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
 
 const App = () => {
   return (
@@ -16,7 +16,5 @@ const App = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;
