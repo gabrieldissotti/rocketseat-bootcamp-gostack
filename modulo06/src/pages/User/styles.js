@@ -2,7 +2,8 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-  padding: 30px;
+  padding: 0;
+  margin: 0;
 `;
 
 export const Header = styled.View`
@@ -39,7 +40,7 @@ export const Stars = styled.FlatList.attrs({
   margin-top: 20px;
 `;
 
-export const Starred = styled.View`
+export const Starred = styled.TouchableOpacity`
   background: #f5f5f5;
   border-radius: 4px;
   padding: 10px 15px;
