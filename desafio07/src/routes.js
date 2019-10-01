@@ -22,6 +22,7 @@ const Routes = createAppContainer(
           backgroundColor: '#141419',
         },
         headerTintColor: '#fff',
+        headerLeft: null,
       },
     }
   )
