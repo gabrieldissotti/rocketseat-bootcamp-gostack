@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Cart = styled.Text`
-  right: 10px;
+  right: 20px;
   position: absolute;
 
   width: 16px;
@@ -18,4 +18,5 @@ export const Cart = styled.Text`
 export const Logo = styled.Image`
   width: 155;
   height: 20;
+  margin-left: 20px;
 `;

@@ -1,8 +1,15 @@
 import React from 'react';
-import { Text } from 'react-native';
 
-// import { Container } from './styles';
+import { Container, ProductList, Item } from './styles';
 
 export default function Main() {
-  return <Text>Main</Text>;
+  return (
+    <Container>
+      <ProductList>
+        <Item />
+        <Item />
+        <Item />
+      </ProductList>
+    </Container>
+  );
 }

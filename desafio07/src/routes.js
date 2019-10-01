@@ -19,10 +19,6 @@ const Routes = createAppContainer(
         headerStyle: {
           backgroundColor: '#141419',
         },
-        headerTintColor: '#fff',
-        headerTitleContainerStyle: {
-          marginLeft: 10,
-        },
       },
     }
   )
