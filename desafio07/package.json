@@ -5,10 +5,11 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start --reset-cache",
+    "start": "yarn adb && react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint .",
-    "postinstall": "jetify"
+    "adb": "adb devices && adb reverse tcp:8081 tcp:8081 && adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3333 tcp:3333",
+    "postinstall": "jetify && react-native run-android"
   },
   "dependencies": {
     "react": "16.9.0",
