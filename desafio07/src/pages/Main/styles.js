@@ -1,15 +1,12 @@
 import styled from 'styled-components';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView``;
+
+export const ProductList = styled.FlatList`
   flex: 1;
+  padding: 20px;
 
   background-color: #191920;
-`;
-
-export const ProductList = styled.ScrollView.attrs({
-  horizontal: true,
-})`
-  padding: 20px;
 `;
 
 export const Item = styled.View`
