@@ -13,7 +13,7 @@ export function addToCartRequest(id) {
   };
 }
 
-export function addCartSuccess(product) {
+export function addToCartSuccess(product) {
   return {
     type: '@cart/ADD_SUCCESS',
     product,

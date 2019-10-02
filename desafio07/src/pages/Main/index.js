@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
+
+import * as CartActions from '../../store/modules/cart/actions';
 
 import {
   ProductList,
@@ -35,15 +38,7 @@ class Main extends Component {
     const { addToCartRequest } = this.props;
 
     addToCartRequest(id);
-
     // const { navigation } = this.props;
-    const { dispatch } = this.props;
-
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    });
-
     // navigation.navigate('Cart');
   };
 
@@ -54,7 +49,7 @@ class Main extends Component {
     return (
       <ProductList
         data={products}
-        keyExtractor={item => item.id}
+        keyExtractor={item => String(item.id)}
         horizontal
         renderItem={({ item }) => {
           return (
@@ -86,7 +81,10 @@ const mapStateToProps = state => ({
   }, {}),
 });
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
 export default connect(
-  null,
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Main);
