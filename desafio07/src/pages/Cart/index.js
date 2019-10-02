@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { formatPrice } from '../../util/format';
 
@@ -22,7 +22,22 @@ import {
   Description,
 } from './styles';
 
-function Cart({ cart, updateAmountRequest, total }) {
+function Cart() {
+  const total = useSelector(state => formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ))
+
+  const cart = useSelector(state => state.cart.map(
+    product => ({
+      ...product,
+      subtotal: formatPrice(product.price * product.amount),
+    }),
+    0
+  ))
+
+
   return (
     <Container>
       <Card>
@@ -63,20 +78,3 @@ function Cart({ cart, updateAmountRequest, total }) {
     </Container>
   );
 }
-
-const mapStateToProps = state => ({
-  cart: state.cart.map(
-    product => ({
-      ...product,
-      subtotal: formatPrice(product.price * product.amount),
-    }),
-    0
-  ),
-  total: formatPrice(
-    state.cart.reduce((total, product) => {
-      return total + product.price * product.amount;
-    }, 0)
-  ),
-});
-
-export default connect(mapStateToProps)(Cart);
