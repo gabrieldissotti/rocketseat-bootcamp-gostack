@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -18,59 +18,51 @@ import {
   Label,
 } from './styles';
 
-class Main extends Component {
-  state = {
-    products: [],
-  };
+function Main({ amount, addToCartRequest }) {
+  const [products, setProducts] = useState([]);
 
-  async componentDidMount() {
-    const response = await api.get('products');
+  useEffect(() => {
+    async function loadProducts() {
+      const response = await api.get('products');
+      const data = response.data.map(product => ({
+        ...product,
+        priceFormatted: formatPrice(product.price),
+      }));
 
-    const data = response.data.map(product => ({
-      ...product,
-      priceFormatted: formatPrice(product.price),
-    }));
+      setProducts(data);
+    }
 
-    this.setState({ products: data });
-  }
+    loadProducts();
+  }, []);
 
-  handleAddToCart = id => {
-    const { addToCartRequest } = this.props;
-
+  function handleAddToCart(id) {
     addToCartRequest(id);
-    // const { navigation } = this.props;
-    // navigation.navigate('Cart');
-  };
-
-  render() {
-    const { products } = this.state;
-    const { amount } = this.props;
-
-    return (
-      <ProductList
-        data={products}
-        keyExtractor={item => String(item.id)}
-        horizontal
-        renderItem={({ item }) => {
-          return (
-            <Item>
-              <Cover
-                source={{
-                  uri: item.image,
-                }}
-              />
-              <Legend>{item.title}</Legend>
-              <Price>{item.priceFormatted}</Price>
-              <Button onPress={() => this.handleAddToCart(item.id)}>
-                <Quantity>{amount[item.id] || 0}</Quantity>
-                <Label>ADICIONAR</Label>
-              </Button>
-            </Item>
-          );
-        }}
-      />
-    );
   }
+
+  return (
+    <ProductList
+      data={products}
+      keyExtractor={item => String(item.id)}
+      horizontal
+      renderItem={({ item }) => {
+        return (
+          <Item>
+            <Cover
+              source={{
+                uri: item.image,
+              }}
+            />
+            <Legend>{item.title}</Legend>
+            <Price>{item.priceFormatted}</Price>
+            <Button onPress={() => handleAddToCart(item.id)}>
+              <Quantity>{amount[item.id] || 0}</Quantity>
+              <Label>ADICIONAR</Label>
+            </Button>
+          </Item>
+        );
+      }}
+    />
+  );
 }
 
 const mapStateToProps = state => ({
