@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
@@ -30,10 +31,16 @@ class Main extends Component {
     this.setState({ products: data });
   }
 
-  handleAddToCart = () => {
-    const { navigation } = this.props;
+  handleAddToCart = product => {
+    // const { navigation } = this.props;
+    const { dispatch } = this.props;
 
-    navigation.navigate('Cart');
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
+
+    // navigation.navigate('Cart');
   };
 
   render() {
@@ -54,7 +61,7 @@ class Main extends Component {
               />
               <Legend>{item.title}</Legend>
               <Price>{item.priceFormatted}</Price>
-              <Button onPress={this.handleAddToCart}>
+              <Button onPress={() => this.handleAddToCart(item)}>
                 <Quantity>1</Quantity>
                 <Label>ADICIONAR</Label>
               </Button>
@@ -66,4 +73,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default connect()(Main);

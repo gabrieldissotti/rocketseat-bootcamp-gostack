@@ -1,15 +1,19 @@
 import React from 'react';
-import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
 
 import { Cart, Logo } from './styles';
 
 import LogoImage from '../../assets/images/logo.png';
 
-export default function Header() {
+function Header({ cartSize }) {
   return (
     <>
       <Logo source={LogoImage} />
-      <Cart>3</Cart>
+      <Cart>{cartSize}</Cart>
     </>
   );
 }
+
+export default connect(state => ({
+  cartSize: state.cart.length,
+}))(Header);

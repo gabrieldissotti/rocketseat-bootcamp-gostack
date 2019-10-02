@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.ScrollView``;
-
 export const ProductList = styled.FlatList`
   flex: 1;
   padding: 20px;
