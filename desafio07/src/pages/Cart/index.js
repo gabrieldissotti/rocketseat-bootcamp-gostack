@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { formatPrice } from '../../util/format';
+
 import {
   Card,
   Item,
@@ -44,7 +46,7 @@ function Cart({ cart }) {
                 </Details>
                 <Wrap>
                   <Amount>3</Amount>
-                  <SubTotal>R$539,70</SubTotal>
+                  <SubTotal>{item.subtotal}</SubTotal>
                 </Wrap>
               </>
             );
@@ -52,7 +54,7 @@ function Cart({ cart }) {
         />
         <Total>
           <Title>TOTAL</Title>
-          <Value>R$ 1619,10</Value>
+          <Value>{total}</Value>
         </Total>
         <BtnFinish>
           <Label>FINALIZAR PEDIDO</Label>
@@ -63,7 +65,18 @@ function Cart({ cart }) {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart,
+  cart: state.cart.map(
+    product => ({
+      ...product,
+      subtotal: formatPrice(product.price * product.amount),
+    }),
+    0
+  ),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 
 export default connect(mapStateToProps)(Cart);
