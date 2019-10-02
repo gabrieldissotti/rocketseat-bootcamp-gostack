@@ -22,7 +22,7 @@ import {
   Description,
 } from './styles';
 
-function Cart({ cart, total }) {
+function Cart({ cart, updateAmountRequest, total }) {
   return (
     <Container>
       <Card>

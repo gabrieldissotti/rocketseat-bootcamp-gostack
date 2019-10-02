@@ -8,7 +8,7 @@ export default function cart(state = [], action) {
 
         draft.push(product);
       });
-    case '@cart/UPDATE_AMOUNT': {
+    case '@cart/UPDATE_AMOUNT_SUCCESS': {
       if (action.amount <= 0) {
         return state;
       }
