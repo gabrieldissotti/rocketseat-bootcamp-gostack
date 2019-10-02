@@ -16,7 +16,7 @@ export const Card = styled.View`
   background-color: #fff;
 `;
 
-export const Item = styled.View`
+export const Item = styled.FlatList`
   margin-bottom: 20px;
 `;
 
