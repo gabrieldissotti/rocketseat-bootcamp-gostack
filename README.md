@@ -1,4 +1,4 @@
-# Rocketseat Bootcamp GoStack 2019
+# Rocketseat Bootcamp GoStack
 
 
 ## ReactJS, React Native and Node.js
